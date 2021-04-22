@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright (c) 2021.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~         http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="@dimen/dp8"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <View
+            android:id="@+id/title_bg"
+            android:layout_width="@dimen/nosize"
+            android:layout_height="@dimen/nosize"
+            android:background="@drawable/title_gradient"
+            android:backgroundTint="@color/brandPrimaryBase"
+            app:layout_constraintBottom_toBottomOf="@+id/subscribers_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp16"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/summary"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp8"
+            android:maxLines="30"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="@tools:sample/lorem/random" />
+
+        <View
+            android:id="@+id/author_chip"
+            android:layout_width="@dimen/nosize"
+            android:layout_height="@dimen/nosize"
+            android:background="@drawable/chip_background"
+            app:layout_constraintBottom_toBottomOf="@id/author"
+            app:layout_constraintEnd_toEndOf="@id/author_name"
+            app:layout_constraintStart_toStartOf="@id/author"
+            app:layout_constraintTop_toTopOf="@id/author" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8"
+            android:padding="@dimen/dp4"
+            android:text="@string/author"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintStart_toStartOf="@+id/summary"
+            app:layout_constraintTop_toBottomOf="@id/summary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:paddingVertical="@dimen/dp4"
+            android:paddingEnd="@dimen/dp4"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintStart_toEndOf="@+id/author"
+            app:layout_constraintTop_toBottomOf="@+id/summary"
+            tools:text="Marc" />
+
+        <View
+            android:id="@+id/subs_chip"
+            android:layout_width="@dimen/nosize"
+            android:layout_height="@dimen/nosize"
+            android:background="@drawable/chip_background"
+            app:layout_constraintBottom_toBottomOf="@id/subs_cont_title"
+            app:layout_constraintEnd_toEndOf="@id/subscribers_count"
+            app:layout_constraintStart_toStartOf="@id/subs_cont_title"
+            app:layout_constraintTop_toTopOf="@id/subs_cont_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/subs_cont_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8"
+            android:padding="@dimen/dp4"
+            android:text="@string/subscribers_count"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintBottom_toBottomOf="@id/author_chip"
+            app:layout_constraintStart_toEndOf="@+id/author_chip"
+            app:layout_constraintTop_toTopOf="@id/author_chip" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/subscribers_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp16"
+            android:paddingVertical="@dimen/dp4"
+            android:paddingEnd="@dimen/dp4"
+            android:textColor="@color/brandPrimaryLight"
+            app:layout_constraintStart_toEndOf="@+id/subs_cont_title"
+            app:layout_constraintTop_toTopOf="@+id/subs_cont_title"
+            tools:text="9999" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

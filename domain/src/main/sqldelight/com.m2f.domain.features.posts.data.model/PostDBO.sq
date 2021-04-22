@@ -1,0 +1,21 @@
+CREATE TABLE PostDBO (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    date TEXT NOT NULL,
+    excerpt TEXT NOT NULL,
+    url TEXT NOT NULL,
+    authorAvatarUrl TEXT NOT NULL,
+    authorName TEXT NOT NULL,
+    authorUrl TEXT NOT NULL,
+    featuredImage TEXT,
+    numberOfSubscribers INTEGER NOT NULL);
+
+
+CREATE INDEX PostDBO_id ON PostDBO(id);
+
+insertOrReplacePost:
+INSERT OR REPLACE INTO PostDBO VALUES ?;
+
+getAllPosts:
+SELECT *
+FROM PostDBO;

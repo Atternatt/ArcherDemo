@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~         http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="411dp"
+            android:height="246dp"
+            android:viewportWidth="411"
+            android:viewportHeight="246">
+            <group android:name="group_1">
+                <clip-path
+                    android:name="clip_path"
+                    android:pathData="M 0 0 L 411 0 L 411 246 L 0 246 Z" />
+                <path
+                    android:name="path"
+                    android:fillColor="#453233"
+                    android:fillType="evenOdd"
+                    android:pathData="M -67.952 -28.056 C -67.952 123.269 54.722 245.944 206.048 245.944 C 357.374 245.944 480.048 123.269 480.048 -28.056" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="path">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="3500"
+                android:interpolator="@android:interpolator/linear"
+                android:propertyName="pathData"
+                android:repeatMode="reverse"
+                android:valueFrom="M -67.952 -28.056 C -67.952 22.386 -54.322 69.644 -30.543 110.237 C -22.112 124.629 -12.406 138.183 -1.579 150.743 C 48.668 209.039 123.048 245.944 206.048 245.944 C 287.519 245.944 360.686 210.386 410.875 153.942 C 432.391 129.745 449.684 101.709 461.599 70.99 C 465.57 60.751 468.944 50.213 471.677 39.421 C 474.41 28.628 476.503 17.58 477.912 6.319 C 478.617 0.689 479.151 -4.994 479.509 -10.725 C 479.866 -16.456 480.048 -22.235 480.048 -28.056"
+                android:valueTo="M 0 0 C 0 0 0 0 0 0 C 0 18.667 0 37.333 0 56 C 68.5 56 137 56 205.5 56 C 273.742 56 341.984 56 410.226 56 C 410.484 56 410.742 56 411 56 C 411 50.299 411 44.599 411 38.898 C 411 33.161 411 27.423 411 21.686 C 411 14.457 411 7.229 411 0 C 274 0 137 0 0 0"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+    <target android:name="clip_path">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="3500"
+                android:interpolator="@android:interpolator/linear"
+                android:propertyName="pathData"
+                android:repeatMode="reverse"
+                android:valueFrom="M 0 0 L 411 0 L 411 246 L 0 246 Z"
+                android:valueTo="M 0 0 L 411 0 L 411 56 L 0 56 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+</animated-vector>
