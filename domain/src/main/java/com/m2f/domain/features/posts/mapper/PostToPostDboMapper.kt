@@ -18,8 +18,8 @@
 package com.m2f.domain.features.posts.mapper
 
 import com.m2f.arch.data.mapper.Mapper
+import com.m2f.domain.features.posts.data.model.PostDBO
 import com.m2f.domain.features.posts.model.Post
-import comm2fdomainfeaturespostsdatamodel.PostDBO
 
 internal object PostToPostDboMapper : Mapper<Post, PostDBO> {
     override fun map(from: Post): PostDBO = with(from) {

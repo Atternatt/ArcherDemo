@@ -21,15 +21,14 @@ import com.m2f.arch.data.datasource.DataSourceMapper
 import com.m2f.arch.data.datasource.GetDataSource
 import com.m2f.arch.data.datasource.VoidDeleteDataSource
 import com.m2f.arch.data.datasource.VoidPutDataSource
+import com.m2f.arch.data.datasource.memory.InMemoryDataSource
 import com.m2f.arch.data.datasource.plus
 import com.m2f.arch.data.datasource.toGetRepository
 import com.m2f.arch.data.repository.CacheRepository
 import com.m2f.arch.data.repository.GetRepository
-import com.m2f.domain.Database
 import com.m2f.domain.features.posts.data.api.PostsService
 import com.m2f.domain.features.posts.data.datasource.GetNumSubscribersNetworkDatasource
 import com.m2f.domain.features.posts.data.datasource.GetPostsNetworkDataSource
-import com.m2f.domain.features.posts.data.datasource.PostsDatabaseDataSource
 import com.m2f.domain.features.posts.data.model.PostEntity
 import com.m2f.domain.features.posts.mapper.PostDboToPostMapper
 import com.m2f.domain.features.posts.mapper.PostEntityToPostMapper
@@ -41,7 +40,7 @@ import com.m2f.domain.features.posts.usecase.DefaultGetNumberOfSubscribersUseCas
 import com.m2f.domain.features.posts.usecase.DefaultGetPostsUseCase
 import com.m2f.domain.features.posts.usecase.GetNumberOfSubscribersUseCase
 import com.m2f.domain.features.posts.usecase.GetPostsUseCase
-import comm2fdomainfeaturespostsdatamodel.PostDBO
+import com.m2f.domain.features.posts.data.model.PostDBO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,14 +61,12 @@ object PostsModule {
     @Provides
     @Singleton
     fun providesPostRepository(
-        retrofit: Retrofit,
-        database: Database
+        retrofit: Retrofit
     ): CacheRepository<Post> {
         val postsService = retrofit.create(PostsService::class.java)
-        val postsDBOQueries = database.postDBOQueries
 
         val networkDatasource: GetDataSource<PostEntity> = GetPostsNetworkDataSource(postsService)
-        val databaseDatasource = PostsDatabaseDataSource(postsDBOQueries)
+        val databaseDatasource = InMemoryDataSource<PostDBO>()
 
         val networkDataSourceMappaer: GetDataSource<Post> =
             networkDatasource + PostEntityToPostMapper

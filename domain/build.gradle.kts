@@ -15,22 +15,25 @@
  *
  */
 
+
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kaptPlugin)
+    id("com.android.library")
+    kotlin("android")
+    kotlin("kapt")
     id(BuildPlugins.hilt)
-    id(BuildPlugins.sqldelight)
     id(BuildPlugins.allOpen)
+    //id("com.squareup.sqldelight")
 }
 
+
+
 android {
-    compileSdkVersion(AndroidSdk.compile)
-    buildToolsVersion(AndroidSdk.buildToolsVersion)
+    compileSdkVersion(31)
 
     defaultConfig {
-        minSdkVersion(AndroidSdk.min)
-        targetSdkVersion(AndroidSdk.target)
+        minSdkVersion(26)
+        targetSdkVersion(31)
+        buildToolsVersion = "30.0.2"
     }
 
     testOptions {
@@ -52,7 +55,7 @@ android {
         getByName("debug") {
             isDebuggable = true
             isMinifyEnabled = false
-            buildConfigField("String", "API_URL", "\"${BuildVariant.Release.endpoint}\"")
+            buildConfigField("String", "API_URL", "\"https://public-api.wordpress.com/rest/v1.1/\"")
 
         }
 
@@ -62,24 +65,37 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_URL", "\"${BuildVariant.Debug.endpoint}\"")
+            buildConfigField("String", "API_URL", "\"https://public-api.wordpress.com/rest/v1.1/\"")
         }
     }
+
 }
 
 
 dependencies {
-    BaseDependencies.dependencies.forEach {
-        it.implementatons.forEach { implementation(it) }
-        it.apt.forEach { kapt(it) }
-    }
+    Base.bucketImplementation.forEach { implementation(it) }
+    Base.bucketImplementationKapt.forEach { kapt(it) }
 
     Test.bucketTestImpl.forEach { testImplementation(it) }
     Test.bucketDebugImpl.forEach { debugImplementation(it) }
 
-    testImplementation(Database.testDriver) {
-        isForce = true
+    testImplementation(Database.sqldelightTestDriver) {
+        endorseStrictVersions()
     }
 
     DomainModule.dependsOn.forEach { api(project(it)) }
+
+    DI.bucketDI.forEach { androidTestImplementation(it) }
+    DI.bucketDI.forEach { implementation(it) }
+    DI.annotationDI.forEach { kaptAndroidTest(it) }
+    DI.annotationDI.forEach { kapt(it) }
+
+    implementation(platform("io.arrow-kt:arrow-stack:1.0.0"))
+    implementation("io.arrow-kt:arrow-core")
+    implementation("io.arrow-kt:arrow-fx-coroutines")
+    implementation("io.arrow-kt:arrow-fx-stm")
+
+    HTTP.bucketHTTPImpl.forEach { implementation(it) }
+
+    Database.bucketDB.forEach { implementation(it) }
 }

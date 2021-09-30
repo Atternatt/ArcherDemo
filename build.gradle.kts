@@ -18,15 +18,16 @@
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
         google()
         mavenCentral()
+        maven(url="https://www.jetbrains.com/intellij-repository/releases")
+        maven(url ="https://jetbrains.bintray.com/intellij-third-party-dependencies")
     }
     dependencies {
         classpath(BuildPlugins.kotlinGradlePlugin)
         classpath(BuildPlugins.androidGradlePlugin)
         classpath(BuildPlugins.hiltRoot)
-        classpath(BuildPlugins.sqldelightPluginUrl)
+        classpath("com.squareup.sqldelight:gradle-plugin:1.5.1")
         classpath(BuildPlugins.allOpenPlugin)
     }
 }
@@ -34,7 +35,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 }

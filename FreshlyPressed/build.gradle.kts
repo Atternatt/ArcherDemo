@@ -33,26 +33,40 @@ enum class KeystoreFields(val value: String) {
 lateinit var keystoreProperties: Properties
 
 plugins {
-    id(BuildPlugins.androidApplication)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kaptPlugin)
+    id("com.android.application")
+    kotlin("android")
     id(BuildPlugins.hilt)
+    id("kotlin-kapt")
     id(BuildPlugins.allOpen)
 }
 
+
+
 dependencies {
-    BaseDependencies.dependencies.forEach {
-        it.implementatons.forEach { implementation(it) }
-        it.apt.forEach { kapt(it) }
-    }
+    Base.bucketImplementation.forEach { implementation(it)}
+    Base.bucketImplementationKapt.forEach { implementation(it)}
 
     Test.bucketTestImpl.forEach { testImplementation(it) }
     Test.bucketAndroidTestImpl.forEach { androidTestImplementation(it) }
-    DI.implementatons.forEach { androidTestImplementation(it) }
-    DI.apt.forEach { kaptAndroidTest(it) }
+
+    DI.bucketDI.forEach { androidTestImplementation(it) }
+    DI.bucketDI.forEach { implementation(it) }
+    DI.annotationDI.forEach { kaptAndroidTest(it) }
+    DI.annotationDI.forEach { kapt(it) }
+
+
     Test.bucketDebugImpl.forEach { debugImplementation(it) }
 
     AppModule.dependsOn.forEach { api(project(it)) }
+
+    UI.bucketUIImpl.forEach { implementation(it) }
+
+    LiveData.bucketLiveData.forEach { implementation(it) }
+
+    Image.bucketImage.forEach { implementation(it) }
+    Image.bucketImageKapt.forEach { kapt(it) }
+
+    HTTP.bucketHTTPImpl.forEach { implementation(it)}
 }
 
 allOpen {
@@ -60,17 +74,19 @@ allOpen {
     // annotations("com.another.Annotation", "com.third.Annotation")
 }
 
+
+
 android {
-    compileSdkVersion(AndroidSdk.compile)
+    compileSdkVersion(31)
 
     defaultConfig {
-        applicationId = AppDefaultConfig.applicationId
-        minSdkVersion(AndroidSdk.min)
-        targetSdkVersion(AndroidSdk.target)
-        buildToolsVersion(AndroidSdk.buildToolsVersion)
-        versionCode = AppDefaultConfig.appVersionCode
-        versionName = AppDefaultConfig.versionName
-        testInstrumentationRunner = Testing.testRunner
+        applicationId = "com.automattic.freshlypressed"
+        minSdkVersion(26)
+        targetSdkVersion(29)
+        buildToolsVersion = "30.0.2"
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -109,13 +125,13 @@ android {
     }
 
     buildTypes {
-        getByName(BuildType.Debug.type) {
-            applicationIdSuffix = ".${BuildType.Debug.type}"
-            versionNameSuffix = "-${BuildType.Debug.type}"
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
             isDebuggable = true
             isMinifyEnabled = false
-            signingConfig = signingConfigs.findByName(BuildType.Debug.type)
-            buildConfigField("String", "API_URL", "\"${BuildVariant.Release.endpoint}\"")
+            signingConfig = signingConfigs.findByName("debug")
+            buildConfigField("String", "API_URL", "\"https://public-api.wordpress.com/rest/v1.1\"")
 
         }
 
@@ -126,7 +142,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_URL", "\"${BuildVariant.Debug.endpoint}\"")
+            buildConfigField("String", "API_URL", "\"https://public-api.wordpress.com/rest/v1.1\"")
         }
     }
 
@@ -176,7 +192,7 @@ fun Properties.getKeystoreProperty(field: KeystoreFields): String {
 /**
  * Checks if we have all the properties required to sign the apk
  *
- * @param wether we are signing the release build.
+ * @param isReleaseBuild whether we are signing the release build.
  */
 fun preCheck(isReleaseBuild: Boolean): Boolean {
     val propertiesNotFound = emptyList<String>().toMutableList()
@@ -224,16 +240,16 @@ fun getEnvVariable(field: KeystoreFields): String =
 fun showError(fields: List<String>, isReleaseBuild: Boolean) =
     println(
         "Ouch! We are not able to find \"$fields\" fields, here is some help:\n" +
-            "- isRelease:$isReleaseBuild\n" +
-            "- Check that your properties file inside secrets folder is following this structure:\n" +
-            "     storeFile=../secrets/debug.keystore\n" +
-            "     storePassword=StorePassword\n" +
-            "     keyAlias=Alias\n" +
-            "     keyPassword=KeyPassword\n" +
-            "- Check that your environment variables are defined in the following way:\n" +
-            "        KeystoreFields.StoreFile -> \"BITRISEIO_ANDROID_KEYSTORE_URL\"\n" +
-            "        KeystoreFields.StorePassword -> \"BITRISEIO_ANDROID_KEYSTORE_PASSWORD\"\n" +
-            "        KeystoreFields.KeyAlias -> \"BITRISEIO_ANDROID_KEYSTORE_ALIAS\"\n" +
-            "        KeystoreFields.KeyPassword -> \"BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD\""
+                "- isRelease:$isReleaseBuild\n" +
+                "- Check that your properties file inside secrets folder is following this structure:\n" +
+                "     storeFile=../secrets/debug.keystore\n" +
+                "     storePassword=StorePassword\n" +
+                "     keyAlias=Alias\n" +
+                "     keyPassword=KeyPassword\n" +
+                "- Check that your environment variables are defined in the following way:\n" +
+                "        KeystoreFields.StoreFile -> \"BITRISEIO_ANDROID_KEYSTORE_URL\"\n" +
+                "        KeystoreFields.StorePassword -> \"BITRISEIO_ANDROID_KEYSTORE_PASSWORD\"\n" +
+                "        KeystoreFields.KeyAlias -> \"BITRISEIO_ANDROID_KEYSTORE_ALIAS\"\n" +
+                "        KeystoreFields.KeyPassword -> \"BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD\""
     )
 //endregion

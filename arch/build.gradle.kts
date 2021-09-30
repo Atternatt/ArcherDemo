@@ -15,18 +15,19 @@
  *
  */
 
+
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
+    id("com.android.library")
+    kotlin("android")
 }
 
 android {
-    compileSdkVersion(AndroidSdk.compile)
-    buildToolsVersion(AndroidSdk.buildToolsVersion)
+    compileSdkVersion(31)
 
     defaultConfig {
-        minSdkVersion(AndroidSdk.min)
-        targetSdkVersion(AndroidSdk.target)
+        minSdkVersion(26)
+        buildToolsVersion = "30.0.3"
+        targetSdkVersion(31)
     }
 
     testOptions {
@@ -41,13 +42,18 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-}
 
+}
 
 dependencies {
-    Coroutines.implementatons.forEach { implementation(it) }
+    Coroutines.bucketCoroutines.forEach { implementation(it) }
     Test.bucketTestImpl.forEach { testImplementation(it) }
-    Functional.implementatons.forEach { implementation(it) }
     Test.bucketAndroidTestImpl.forEach { androidTestImplementation(it) }
     Test.bucketTestImpl.forEach { testImplementation(it) }
+
+    implementation(platform("io.arrow-kt:arrow-stack:1.0.0"))
+    implementation("io.arrow-kt:arrow-core")
+    implementation("io.arrow-kt:arrow-fx-coroutines")
+    implementation("io.arrow-kt:arrow-fx-stm")
 }
+

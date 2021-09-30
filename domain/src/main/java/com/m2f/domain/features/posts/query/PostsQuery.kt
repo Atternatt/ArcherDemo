@@ -17,10 +17,10 @@
 
 package com.m2f.domain.features.posts.query
 
-import com.m2f.arch.data.query.Query
+import com.m2f.arch.data.query.KeyQuery
 
 /**
  * Query used for get posts requests.
  * @param number the number of items to get.
  */
-data class PostsQuery(val forceRefresh: Boolean, val number: Int = 10) : Query()
+data class PostsQuery(val forceRefresh: Boolean, val number: Int = 10) : KeyQuery("posts")

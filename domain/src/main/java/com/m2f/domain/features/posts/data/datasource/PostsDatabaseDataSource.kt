@@ -24,14 +24,15 @@ import com.m2f.arch.data.error.Failure
 import com.m2f.arch.data.query.Query
 import com.m2f.domain.features.posts.data.model.PostEntity
 import com.m2f.domain.features.posts.query.PostsQuery
-import comm2fdomainfeaturespostsdatamodel.PostDBO
-import comm2fdomainfeaturespostsdatamodel.PostDBOQueries
+import com.m2f.domain.features.posts.data.model.PostDBO
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.resume
 
+/* fixme -> theres a problem with sqldelight pluguin that makes the build crash so we are not using this datasource for the moment
+//we replaced this Datasource for a InMemoryDataSource as a workaround
 internal class PostsDatabaseDataSource(private val postDBOQueries: PostDBOQueries) :
     GetDataSource<PostDBO>, PutDataSource<PostDBO> {
 
@@ -95,4 +96,4 @@ internal class PostsDatabaseDataSource(private val postDBOQueries: PostDBOQuerie
             }
         }
     }
-}
+}*/
